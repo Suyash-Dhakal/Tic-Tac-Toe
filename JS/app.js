@@ -13,7 +13,8 @@ const winPatterns=[
     [3,4,5],[6,7,8]
 ];
 
-var btnClickCount=0;
+let btnClickCount=0;
+let winnerDeclared=false;      //becomes true only when a winner is declared
 
 boxes.forEach((box)=>{
     box.addEventListener("click",()=>{
@@ -28,9 +29,14 @@ else{ //player O turn
 box.disabled=true;
 // check for winner during any button click
 
-checkWinner();
 btnClickCount++;
-if(btnClickCount===9){
+
+if(checkWinner()){
+    winnerDeclared=true;
+}
+
+// draw only if no winner has been declared and total click=9
+if(btnClickCount===9 && !winnerDeclared){
     drawCondition();
 }
     });
@@ -48,13 +54,17 @@ boxes.forEach((box)=>{
     if(document.querySelector('#draw')){
         document.querySelector('#draw').remove();
     }
+
+    //resetting every variables to initial condition
     box.disabled=false;
     turnX=true;
     btnClickCount=0;
+    winnerDeclared=false;
 });
 });
 
 const checkWinner=()=>{
+let winnerFound=false;
 winPatterns.forEach((pattern)=>{
 let pos1Val=boxes[pattern[0]].innerText;
 let pos2Val=boxes[pattern[1]].innerText;
@@ -67,11 +77,11 @@ if(pos1Val!="" && pos2Val!="" && pos3Val!="" ){
         newElement.textContent = pos1Val+' is the winner';
         var parentElement = document.getElementById('main-parent');
         parentElement.appendChild(newElement);
+        winnerFound=true;
     }
-
 }
 });
-
+return winnerFound;
 };
 
 function drawCondition()

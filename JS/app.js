@@ -33,6 +33,7 @@ btnClickCount++;
 
 if(checkWinner()){
     winnerDeclared=true;
+    
 }
 
 // draw only if no winner has been declared and total click=9
@@ -78,6 +79,10 @@ if(pos1Val!="" && pos2Val!="" && pos3Val!="" ){
         var parentElement = document.getElementById('main-parent');
         parentElement.appendChild(newElement);
         winnerFound=true;
+        //disable all boxes after winner is found
+        boxes.forEach((box)=>{
+            box.disabled=true;
+        });
     }
 }
 });
@@ -92,3 +97,5 @@ function drawCondition()
     var parentElement = document.getElementById('main-parent');
     parentElement.appendChild(newElement);
 }
+
+
